@@ -1,21 +1,25 @@
 import React from 'react'
 import styled from "styled-components"
 
-function Section() {
+//Unpacking the props object to get the actual keys
+function Section({title, description, leftBtnText, rightBtnText, backgroundImage}) {
     return (
-        <Wrap>
+        //passing a props to styled component
+        <Wrap bgImage={backgroundImage}> 
             <ItemText>
-                <h1>Model S</h1>
-                <p>Order Online For Touchless Delivery</p>
+                <h1>{title}</h1>
+                <p>{description}</p>
             </ItemText>
             <Button>
             <ButtonGroup>
                 <LeftButton>
-                    Custom Order
+                    {leftBtnText}
                 </LeftButton>
-                <RightButton>
-                    Existing Inventory
-                </RightButton>
+                {rightBtnText &&
+                    <RightButton>
+                        {rightBtnText}
+                    </RightButton>
+                 }
             </ButtonGroup>
             <DownArrow src="/images/down-arrow.svg" />
             </Button>
@@ -34,8 +38,9 @@ const Wrap = styled.div`
     background-image: url('/images/model-s.jpg');
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between; //vertical
+    align-items: center; // horizontal
+    background-image: ${props =>`url("/images/${props.bgImage}")`}
 
 
 `
@@ -48,6 +53,9 @@ const ItemText = styled.div`
 const ButtonGroup = styled.div`
     display: flex;
     margin-bottom: 30px;
+    @media (max-width: 768px){
+        flex-direction: column;
+    }
 
 `
 const LeftButton = styled.div`
@@ -66,11 +74,18 @@ const LeftButton = styled.div`
     margin: 8px;
 `
 const RightButton = styled(LeftButton)`
-
+    background-color: white;
+    opacity: 0.55;
+    color: black;
+    font-weight: bold;
 `
 const DownArrow = styled.img`
-    margin-top: 20px;
+   
     height: 40px;
+    overflow-x: hidden;
+    animation: animateDown infinite 1.5s;
+    ${'' /* cursor: pointer; */}
+
 
 `
 const Button = styled.div `
